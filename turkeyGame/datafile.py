@@ -20,15 +20,13 @@ class DataFile:
         self.filename = filename
        
     def write2xlsx(self, **other):
-        '每次中奖的概率'
         # Rows can also be appended
-        self.ws.append([other["numberPeriod"],other["money"],other["lastIswinMoney"],other["cost"],other["betting"],other["probability"]])    
+        self.ws.append([other["numberPeriod"],other["money"],other["lastwinMoney"],other["cost"],other["betting"],other["probability"]])    
         
     def save2xlsx(self):
         self.wb.save(self.filename)
     
-    def __del__(self):
+    def close(self):
         self.wb.close()
+
         
-datafile = DataFile(r"E:\Git\turkeyGame\sample.xlsx")
-datafile.save2xlsx()
