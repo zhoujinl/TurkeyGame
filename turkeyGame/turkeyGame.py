@@ -2,25 +2,25 @@
 #coding=utf-8
 
 '''
-æ¨¡æ‹Ÿå…­åˆå½©æ¸¸æˆ
-æ¸¸æˆè§„åˆ™ï¼šæ‘‡å·ï¼Œä» 1-49 ä¸ªå·ç ä¸­ï¼Œé€‰å‡ºç‰¹ç ã€‚
-å‡è®¾å½“å‰èµ”ç‡ä¸ºXï¼Œå³æœ¬é‡‘Yï¼Œå¾—Xå€æ•°çš„å¥–é‡‘ Y*Xã€‚
-ä¸ºæä¾›ä¸­å¥–çš„æ¦‚ç‡ï¼Œæ¯æ¬¡å‹ä½ä¸ºZä¸ªYï¼Œæœ¬ç¨‹åºè®¡ç®—å¦‚ä½•åœ¨æœ‰é™çš„èµ„é‡‘ä¸‹ï¼Œå°½å¯èƒ½çš„åˆ†é…æ¯æ¬¡çš„æŠ¼æ³¨æˆæœ¬Y,ä»¥æé«˜ä¸­å¥–æ¦‚ç‡
+Ä£ÄâÁùºÏ²ÊÓÎÏ·
+ÓÎÏ·¹æÔò£ºÒ¡ºÅ£¬´Ó 1-49 ¸öºÅÂëÖĞ£¬Ñ¡³öÌØÂë¡£
+¼ÙÉèµ±Ç°ÅâÂÊÎªX£¬¼´±¾½ğY£¬µÃX±¶ÊıµÄ½±½ğ Y*X¡£
+ÎªÌá¹©ÖĞ½±µÄ¸ÅÂÊ£¬Ã¿´ÎÑ¹×¡ÎªZ¸öY£¬±¾³ÌĞò¼ÆËãÈçºÎÔÚÓĞÏŞµÄ×Ê½ğÏÂ£¬¾¡¿ÉÄÜµÄ·ÖÅäÃ¿´ÎµÄÑº×¢³É±¾Y,ÒÔÌá¸ßÖĞ½±¸ÅÂÊ
 
-ä¸ºæ¨¡æ‹ŸçœŸå®çš„æ¸¸æˆï¼Œç°å‡è®¾X ä¸º 48ï¼ŒYä¸º10ï¼Œæ¯æ¬¡æŠ¼æ³¨Zä¸º13.
+ÎªÄ£ÄâÕæÊµµÄÓÎÏ·£¬ÏÖ¼ÙÉèX Îª 48£¬YÎª10£¬Ã¿´ÎÑº×¢ZÎª13.
 params: python calc.py -h 
 
-ä¸‰ç±»ï¼šå¥½è¿ã€ä¸€åŠã€å„è¿
+ÈıÀà£ººÃÔË¡¢Ò»°ë¡¢¶òÔË
 
 '''
-import xlrd
+import openpyxl 
 import random
 
 totalNumber = 49.0
 randomNumber = 100
 
 class Turkey:
-    'è¿™æ˜¯ä¸€åªå¥½æ–—çš„å°ç«é¸¡'
+    'ÕâÊÇÒ»Ö»ºÃ¶·µÄĞ¡»ğ¼¦'
     
     def __init__(self, name, options):
         self.name = name
@@ -34,19 +34,19 @@ class Turkey:
         #self.probability = 0.5
 
     def probabilityOfWinningEachPeriod(self):
-        'æ¯æ¬¡ä¸­å¥–çš„æ¦‚ç‡'
+        'Ã¿´ÎÖĞ½±µÄ¸ÅÂÊ'
         self.probability = self.options.numberBetting/totalNumber 
-        print 'æ¯æ¬¡ä¸­å¥–çš„æ¦‚ç‡: ' + str(self.probability)
+        print 'Ã¿´ÎÖĞ½±µÄ¸ÅÂÊ: ' + str(self.probability)
 
     def isWin(self):
-        'æœ¬æœŸæ˜¯å¦ä¸­å¥–'
+        '±¾ÆÚÊÇ·ñÖĞ½±'
         #return random.randint(0, 100) < (self.probability * 100)
         print (random.randint(0, 100) < (self.probability * 100))
         return "False"
         
     def makeMoney(self):  
-        'æœ¬æœŸæ˜¯å¦èµšé’±ã€‚ä¸­åˆ™åŠ é’±ï¼Œä¸ä¸­åˆ™æ‰£é’±'
-        print ("å½“æœŸæŠ¼æ³¨å¤§å°ï¼š" + str(tukey.options.betting))
+        '±¾ÆÚÊÇ·ñ×¬Ç®¡£ÖĞÔò¼ÓÇ®£¬²»ÖĞÔò¿ÛÇ®'
+        print ("µ±ÆÚÑº×¢´óĞ¡£º" + str(tukey.options.betting))
         if self.isWin():
             makeMoney = self.options.betting * self.options.odds - self.options.betting * self.options.numberBetting
             self.winCount = self.winCount + 1 
@@ -56,11 +56,11 @@ class Turkey:
         self.money = self.money + makeMoney
 
     def makeMoneyByStrategy(self):
-        'å¯ç”¨ç­–ç•¥ï¼Œå½“æŸå‡ æœŸä¹‹åï¼Œäºé’±æ—¶ï¼Œå¢å¤§èµŒæ³¨ï¼Œé»˜è®¤æ˜¯ç¿»å€;'   
+        'ÆôÓÃ²ßÂÔ£¬µ±Ä³¼¸ÆÚÖ®ºó£¬¿÷Ç®Ê±£¬Ôö´ó¶Ä×¢£¬Ä¬ÈÏÊÇ·­±¶;'   
         self.makeMoney()
-        #todo ä¿å­˜å½“å‰çŠ¶æ€
+        #todo ±£´æµ±Ç°×´Ì¬
         '''
-        # èµŒæ³¨å¼€æ–¹
+        # ¶Ä×¢¿ª·½
         if self.money < 0 :
             if self.options.betting < self.options.maxBetting/2 :
                 self.options.betting = self.options.betting * 2              
@@ -68,7 +68,7 @@ class Turkey:
             self.options.betting = self.options.betting/2
         '''
         
-        # èµŒæ³¨æ¯æ¬¡å¢åŠ ä¸€å€
+        # ¶Ä×¢Ã¿´ÎÔö¼ÓÒ»±¶
         if self.money < 0 :
             if self.options.betting < self.options.maxBetting  :
                 self.options.betting = self.options.betting +  self.originBetting             
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     tukey=Turkey("xiaolizi",options)
 
     tukey.startGame()
-    print ("æœ€åç›ˆåˆ©ä¸ºï¼š" + str(tukey.money))
-    print ("æœ€åä¸€æœŸç›ˆåˆ©å¤§å°ï¼š" + str(tukey.lastIswinMoney))
-    print ("æ€»ä¸­å¥–æ¬¡æ•°ï¼š" + str(tukey.winCount))
+    print ("×îºóÓ¯ÀûÎª£º" + str(tukey.money))
+    print ("×îºóÒ»ÆÚÓ¯Àû´óĞ¡£º" + str(tukey.lastIswinMoney))
+    print ("×ÜÖĞ½±´ÎÊı£º" + str(tukey.winCount))
 
