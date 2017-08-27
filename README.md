@@ -1,5 +1,6 @@
 # turkeyGame
-![turkeyGame](https://github.com/zhoujinl/turkeyGame/blob/master/turkey.jpg?raw=true "我是好斗的小火鸡")
+![turkeyGame](https://github.com/zhoujinl/turkeyGame/blob/master/turkey.jpg?raw=true "我是好斗的小火鸡")  
+
 这是一只好斗的小火鸡  
 斗天  
 斗地  
