@@ -19,11 +19,14 @@ params: python calc.py -h
 import openpyxl 
 import random
 import datetime
-import luckyTurkey  
+
+import customTurkey  
+#import luckyTurkey  
 import strategy
 import player
 
 from datafile import DataFile
+
 
 class Turkey:
     '这是一只好斗的小火鸡'
@@ -54,6 +57,10 @@ class Turkey:
         '每次中奖的概率：可由子类重写'
         return self.numberBetting/self.totalNumber
         
+    def isWin(self):
+        '本期是否中奖,随机获取'
+        return random.randint(0, 100) < (self.probability * 100)
+        
     #策略接口    
     def setStrategy(self,strategy):
         self.strategy = strategy 
@@ -62,9 +69,7 @@ class Turkey:
     def setPlayer(self,player):
         self.player = player           
         
-    def isWin(self):
-        '本期是否中奖,随机获取'
-        return random.randint(0, 100) < (self.probability * 100)
+   
         
     def earnMeneyOnePeriod(self):  
         '本期是否赚钱。中则加钱，不中则扣钱'        
@@ -81,7 +86,7 @@ class Turkey:
         self.lastwinMoney = makeMoney
         self.playCount = self.playCount + 1
         self.money = self.money + makeMoney
-   
+        
     def saveStateEachPeriod(self):
         '记录每局输赢'
         self.datafile.write2xlsx(numberPeriod=self.playCount,money=self.money,lastwinMoney=self.lastwinMoney,
@@ -104,7 +109,21 @@ class Turkey:
         self.player.play()       
         self.cleanGame()
         return self.money
-     
+
+
+def customThink(options):
+    '''总次数14次,游戏规则：
+    不中，则+10；
+    中，则退出游戏，重新开始
+    分别计算中一次...N次的盈利情况
+    '''
+    for i in range(0,14) :
+        tukey = customTurkey.CustomTurkey("xiaolizi-"+str(i),options)
+        tukey.setStrategy(strategy.CrazyStrategy(tukey))
+        tukey.setPlayer(player.CrazyPlayer(tukey))
+        tukey.startGame()
+    
+        
 
 if __name__ == '__main__':
     from optparse import OptionParser
@@ -117,13 +136,13 @@ if __name__ == '__main__':
     parser.add_option("-n", "--numberBetting", dest="numberBetting", help="The number of betting;default 12", default='13', type="int")
     parser.add_option("-m", "--maxBetting", dest="maxBetting", help="The max Betting;default 100", default='100', type="int")
     parser.add_option("-c", "--count", dest="gameCount", help="The gameCount;default 100", default='14', type="int")
-    parser.add_option("-b", "--betting", dest="betting", help="Each bet;init 10", default='20', type="int")
+    parser.add_option("-b", "--betting", dest="betting", help="Each bet;init 10", default='10', type="int")
 
     (options, args) = parser.parse_args()
     
-    tukey = Turkey("xiaolizi",options)
-    tukey.setStrategy(strategy.WiseStrategy(tukey))
-    tukey.setPlayer(player.Player(tukey))
+    tukey = customTurkey.CustomTurkey("xiaolizi",options)
+    tukey.setStrategy(strategy.CrazyStrategy(tukey))
+    tukey.setPlayer(player.CrazyPlayer(tukey))
     tukey.startGame()
     
     print ("最后盈利为：" + str(tukey.money))
@@ -131,26 +150,5 @@ if __name__ == '__main__':
     print ("总中奖次数：" + str(tukey.winCount))
     print ("总游戏次数：" + str(tukey.playCount))
 
-    '''
-    #以赌徒模式来计算，上下止盈、封顶均为10000 ,那么总次数为
-    winCount = 0
-    winMoney = 0
-    gameCount = 0
-    for i in range(0,10) :
-        (options, args) = parser.parse_args()
-        tukey=Turkey(i,options)
-        thisWin=tukey.startGame()
-        if thisWin > 0 :
-            print "winCount:"+str(winCount)
-            winCount = winCount + 1
-        winMoney = winMoney + tukey.money
-        gameCount = gameCount + tukey.playCount
-        print ("第 %d 次总游戏次数："  %(i)  + str(tukey.playCount))
-        print ("第 %d 次盈利为："  %(i)  + str(tukey.money))
-        
-    print ("大轮游戏赢次：" + str(winCount))
-    print ("小轮游戏总次数：" + str(gameCount))
-    print ("最后盈利为：" + str(winMoney))
-    '''
     
 

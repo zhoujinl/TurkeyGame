@@ -40,8 +40,31 @@ class WiseStrategy(Strategy):
             #有收益的时候，以保本为旨
             elif self.turkey.currentBetting > self.turkey.originBetting : 
                 self.turkey.currentBetting = self.turkey.currentBetting - self.turkey.originBetting 
-        
-                   
+
+class CrazyStrategy(Strategy):
+    '从10开始，每输一次就就筹码+10'
+    
+    def doStrategy(self):
+        #todo nothing
+        '''
+        # 赌注开方
+        if self.money < 0 :
+            if self.currentBetting < self.maxBetting/2 :
+                self.currentBetting = self.currentBetting * 2              
+        elif self.currentBetting > self.originBetting  :
+            self.currentBetting = self.currentBetting/2
+        ''' 
+        if self.turkey.lastwinMoney > 0 :        
+            self.turkey.currentBetting =  self.turkey.originBetting             
+        else :     
+            self.turkey.currentBetting = self.turkey.currentBetting + self.turkey.originBetting   
+            
+        self.turkey.makeMoney = self.turkey.currentBetting * self.turkey.odds - self.turkey.currentBetting * self.turkey.numberBetting
+        #如果发现该赌注在赢的情况下，无法一次性翻本，则继续+self.turkey.originBetting
+        while self.turkey.money + self.turkey.makeMoney < 0 :
+            self.turkey.currentBetting = self.turkey.currentBetting + self.turkey.originBetting             
+            self.turkey.makeMoney = self.turkey.currentBetting * self.turkey.odds - self.turkey.currentBetting * self.turkey.numberBetting
+
         
 if __name__ == '__main__':
     print "I'm the Strategy."

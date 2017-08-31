@@ -53,8 +53,17 @@ class WisePlayer(Player):
             if self.playCount > 30 :
                 break
         '''
-                
+            
+class CrazyPlayer(Player):
 
+    def play(self):
+        ## 有赚就跑模式 
+        for i in range(0,self.turkey.gameCount) :
+            self.turkey.playGameEachPeriod()  
+            if self.turkey.money > 0 :
+                break;
+        
+                
         
 if __name__ == '__main__':
     print "I'm the Strategy."
