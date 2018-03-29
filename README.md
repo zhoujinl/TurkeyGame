@@ -1,11 +1,8 @@
 ![turkeyGame](https://github.com/zhoujinl/turkeyGame/blob/master/turkey.jpg?raw=true "我是好斗的小火鸡")  
 
-这是一只好斗的小火鸡  
-斗天  
-斗地  
-斗六合彩  
 
-# 战斗方法
+
+# whoami
 >模拟六合彩游戏  
 游戏规则：摇号，从 1-49 个号码中，选出特码。  
 假设当前赔率为X，即本金Y，得X倍数的奖金 Y*X。  
@@ -22,10 +19,10 @@ params: python calc.py -h
 # 如何提高准确性
 机器学习算法，提供下一期开奖号码
 
-# 最最重要
+# 最重要
 **赌博违法**  
 **做个遵纪守法好公民**  
-**以上纯属个人娱乐,仅供学习讨论**  
+ 
 
 # TODO
 * 完善下注策略、止盈止损
